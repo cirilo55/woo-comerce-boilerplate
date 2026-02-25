@@ -1,0 +1,35 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+
+    <!-- Amazon dark -->
+    <linearGradient id="darkGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#232F3E"></stop>
+      <stop offset="100%" stop-color="#0F1111"></stop>
+    </linearGradient>
+
+    <!-- Amazon orange -->
+    <linearGradient id="amazonOrange" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF9900"></stop>
+      <stop offset="100%" stop-color="#FFB84D"></stop>
+    </linearGradient>
+
+  </defs>
+
+  <!-- A left side -->
+  <polygon points="200,40 140,180 170,180 200,110 230,180 260,180" fill="url(#darkGrad)"></polygon>
+
+  <!-- A right orange -->
+  <polygon points="200,40 230,180 260,180 230,80" fill="url(#amazonOrange)"></polygon>
+
+  <!-- Smile curve -->
+  <path d="M120 190 Q200 230 280 190" stroke="#FF9900" stroke-width="8" fill="none" stroke-linecap="round"></path>
+
+  <!-- Text -->
+  <text x="200" y="260" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#232F3E">
+
+    Arqfy
+
+  </text>
+
+</svg>
