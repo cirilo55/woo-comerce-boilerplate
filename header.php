@@ -77,13 +77,14 @@
 				}
 				?>
 				<a href="<?php echo esc_url($cart_url); ?>" class="icon-link cart-link" aria-label="Carrinho">
-					<span class="icon">🛒</span>
+					<img src="<?php echo esc_url(get_template_directory_uri() . '/images/cart.png'); ?>" alt="Carrinho" class="icon-img" width="24" height="24" />
 					<?php if ($cart_count > 0) : ?>
 						<span class="badge"><?php echo esc_html((string) $cart_count); ?></span>
 					<?php endif; ?>
 				</a>
 				<a href="<?php echo esc_url($account_url); ?>" class="icon-link account-link" aria-label="Minha conta">
-					<span class="icon">👤</span>
+					<img src="<?php echo esc_url(get_template_directory_uri() . '/images/user.png'); ?>" alt="Minha conta" class="icon-img" width="24" height="24" />
+					<span class="account-text"><?php echo is_user_logged_in() ? 'Minha conta' : 'Entrar'; ?></span>
 				</a>
 			<?php endif; ?>
 		</div>
@@ -92,17 +93,24 @@
 	<div class="header-bottom">
 		<div class="container">
 			<nav class="header-tabs" aria-label="Navegacao">
-				<ul class="header-tabs-list">
-					<?php
-					if (function_exists('wp_list_pages')) {
-						echo wp_list_pages(array(
-							'title_li' => '',
-							'depth' => 1,
-							'echo' => 0
-						));
-					}
-					?>
-				</ul>
+				<?php
+				if (function_exists('has_nav_menu') && has_nav_menu('header-menu') && function_exists('wp_nav_menu')) {
+					wp_nav_menu(array(
+						'theme_location' => 'header-menu',
+						'container' => false,
+						'menu_class' => 'header-tabs-list',
+						'depth' => 1,
+					));
+				} elseif (function_exists('wp_list_pages')) {
+					echo '<ul class="header-tabs-list">';
+					echo wp_list_pages(array(
+						'title_li' => '',
+						'depth' => 1,
+						'echo' => 0
+					));
+					echo '</ul>';
+				}
+				?>
 			</nav>
 		</div>
 	</div>

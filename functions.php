@@ -5,6 +5,10 @@ function meutema_setup() {
     add_theme_support('post-thumbnails');
     add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script'));
 
+    register_nav_menus(array(
+        'header-menu' => __('Menu do Cabeçalho', 'meutema'),
+    ));
+
     add_theme_support('woocommerce');
     add_theme_support('wc-product-gallery-zoom');
     add_theme_support('wc-product-gallery-lightbox');

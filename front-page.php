@@ -107,12 +107,6 @@
 									<div class="product-price">
 										<?php echo wp_kses_post($product->get_price_html()); ?>
 									</div>
-									<?php
-									$excerpt = get_the_excerpt();
-									$excerpt = wp_trim_words($excerpt, 10);
-									?>
-									<p class="product-excerpt"><?php echo esc_html($excerpt); ?></p>
-									<a href="<?php the_permalink(); ?>" class="btn btn-primary btn-sm">Ver detalhes</a>
 								</div>
 							</li>
 						<?php endwhile; ?>
