@@ -37,12 +37,30 @@
 			<span class="logo-text">Arqfy</span>
 		</a>
 
-		<nav class="main-nav" aria-label="Menu principal">
-			<?php if (class_exists('WooCommerce') && function_exists('wc_get_page_permalink')) : ?>
-				<?php $shop_url = (string) call_user_func('wc_get_page_permalink', 'shop'); ?>
-				<a href="<?php echo esc_url($shop_url); ?>">Loja</a>
-			<?php endif; ?>
-		</nav>
+		<div class="header-search">
+			<form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
+				<div class="search-container">
+					<button type="submit" class="search-submit" aria-label="Buscar">
+						<img src="<?php echo esc_url(get_template_directory_uri() . '/images/search.png'); ?>" alt="Buscar" class="search-icon" width="20" height="20"/>
+					</button>
+					<input 
+						type="search" 
+						class="search-field" 
+						placeholder="Buscar produtos..." 
+						value="<?php echo get_search_query(); ?>" 
+						name="s"
+						autocomplete="off"
+						aria-label="Campo de busca"
+					/>
+					<?php if (class_exists('WooCommerce')) : ?>
+						<input type="hidden" name="post_type" value="product" />
+					<?php endif; ?>
+				</div>
+				<div class="search-results-dropdown" style="display: none;">
+					<div class="search-results-container"></div>
+				</div>
+			</form>
+		</div>
 
 		<div class="header-icons">
 			<?php if (class_exists('WooCommerce') && function_exists('wc_get_page_permalink') && function_exists('wc_get_cart_url')) : ?>
@@ -68,6 +86,24 @@
 					<span class="icon">👤</span>
 				</a>
 			<?php endif; ?>
+		</div>
+	</div>
+
+	<div class="header-bottom">
+		<div class="container">
+			<nav class="header-tabs" aria-label="Navegacao">
+				<ul class="header-tabs-list">
+					<?php
+					if (function_exists('wp_list_pages')) {
+						echo wp_list_pages(array(
+							'title_li' => '',
+							'depth' => 1,
+							'echo' => 0
+						));
+					}
+					?>
+				</ul>
+			</nav>
 		</div>
 	</div>
 </header>

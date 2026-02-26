@@ -70,66 +70,66 @@
 			</div>
 
 			<?php
-			if (class_exists('WP_Query')) {
-				if (function_exists('have_posts') && call_user_func('have_posts')) : ?>
-					<div class="products-carousel-wrapper">
-						<ul class="products-carousel">
-							<?php while (call_user_func('have_posts')) : call_user_func('the_post');
-								global $product;
-								$has_thumb = function_exists('has_post_thumbnail') ? call_user_func('has_post_thumbnail') : false;
-								$on_sale = is_object($product) && method_exists($product, 'is_on_sale') ? $product->is_on_sale() : false;
-								?>
-								<li class="product-card">
-									<a href="<?php the_permalink(); ?>" class="product-image">
-										<?php if ($has_thumb) : ?>
-											<?php if (function_exists('the_post_thumbnail')) call_user_func('the_post_thumbnail', 'medium'); ?>
-										<?php else : ?>
-											<div class="no-image">Sem imagem</div>
-										<?php endif; ?>
-										<?php if ($on_sale) : ?>
-											<span class="sale-badge">PROMOÇÃO</span>
-										<?php endif; ?>
-									</a>
-									<div class="product-info">
-										<h3 class="product-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-										<div class="product-price">
-											<?php if (is_object($product) && method_exists($product, 'get_price_html')) {
-												echo wp_kses_post($product->get_price_html());
-											} ?>
-										</div>
-										<?php
-										$excerpt = function_exists('get_the_excerpt') ? call_user_func('get_the_excerpt') : '';
-										if (function_exists('wp_trim_words')) {
-											$excerpt = call_user_func('wp_trim_words', $excerpt, 10);
-										}
-										?>
-										<p class="product-excerpt"><?php echo esc_html($excerpt); ?></p>
-										<a href="<?php the_permalink(); ?>" class="btn btn-primary btn-sm">Ver detalhes</a>
+			// Query para produtos mais vendidos
+			$args = array(
+				'post_type' => 'product',
+				'posts_per_page' => 12,
+				'meta_key' => 'total_sales',
+				'orderby' => 'meta_value_num',
+				'order' => 'DESC',
+				'post_status' => 'publish'
+			);
+			
+			$bestsellers_query = new WP_Query($args);
+			
+			if ($bestsellers_query->have_posts()) : ?>
+				<div class="products-carousel-wrapper">
+					<button class="carousel-arrow prev" aria-label="Anterior">‹</button>
+					<ul class="products-carousel">
+						<?php while ($bestsellers_query->have_posts()) : $bestsellers_query->the_post();
+							global $product;
+							$has_thumb = has_post_thumbnail();
+							$on_sale = $product->is_on_sale();
+							?>
+							<li class="product-card">
+								<a href="<?php the_permalink(); ?>" class="product-image">
+									<?php if ($has_thumb) : ?>
+										<?php the_post_thumbnail('medium'); ?>
+									<?php else : ?>
+										<div class="no-image">Sem imagem</div>
+									<?php endif; ?>
+									<?php if ($on_sale) : ?>
+										<span class="sale-badge">PROMOÇÃO</span>
+									<?php endif; ?>
+								</a>
+								<div class="product-info">
+									<h3 class="product-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+									<div class="product-price">
+										<?php echo wp_kses_post($product->get_price_html()); ?>
 									</div>
-								</li>
-							<?php endwhile; ?>
-						</ul>
-					</div>
-					<?php if (function_exists('wp_reset_postdata')) call_user_func('wp_reset_postdata'); ?>
-				<?php else : ?>
-					<div class="no-products">
-						<p>Nenhum produto cadastrado ainda. <a href="<?php if (function_exists('admin_url')) echo esc_url(call_user_func('admin_url', 'post-new.php?post_type=product')); ?>">Adicione produtos agora</a>.</p>
-					</div>
-				<?php endif;
-			} else {
-				echo '<div class="no-products"><p>WP_Query não disponível.</p></div>';
-			}
-			?>
+									<?php
+									$excerpt = get_the_excerpt();
+									$excerpt = wp_trim_words($excerpt, 10);
+									?>
+									<p class="product-excerpt"><?php echo esc_html($excerpt); ?></p>
+									<a href="<?php the_permalink(); ?>" class="btn btn-primary btn-sm">Ver detalhes</a>
+								</div>
+							</li>
+						<?php endwhile; ?>
+					</ul>
+					<button class="carousel-arrow next" aria-label="Próximo">›</button>
+				</div>
+				<?php wp_reset_postdata(); ?>
+			<?php else : ?>
+				<div class="no-products">
+					<p>Nenhum produto cadastrado ainda. <a href="<?php echo esc_url(admin_url('post-new.php?post_type=product')); ?>">Adicione produtos agora</a>.</p>
+				</div>
+			<?php endif; ?>
 		</div>
 	</section>
 
 	<section class="shop-benefits">
 		<div class="container benefits-grid">
-			<div class="benefit-card">
-				<div class="benefit-icon">📦</div>
-				<h3>Envio rápido</h3>
-				<p>Entrega em até 2 dias úteis para a maioria dos produtos.</p>
-			</div>
 			<div class="benefit-card">
 				<div class="benefit-icon">🔒</div>
 				<h3>Seguro na compra</h3>

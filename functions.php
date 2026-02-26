@@ -23,11 +23,22 @@ function meutema_enqueue_assets() {
     if (function_exists('wp_enqueue_script')) {
         call_user_func('wp_enqueue_script',
             'meutema-carousel',
-            get_template_directory_uri() . '/carousel.js',
+            get_template_directory_uri() . '/js/carousel.js',
             array(),
             wp_get_theme()->get('Version'),
             true
         );
+        
+        // Enqueue products page JS only on shop/archive pages
+        if (function_exists('is_shop') && (is_shop() || is_product_category() || is_product_tag())) {
+            call_user_func('wp_enqueue_script',
+                'meutema-products-page',
+                get_template_directory_uri() . '/js/products-page.js',
+                array(),
+                wp_get_theme()->get('Version'),
+                true
+            );
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'meutema_enqueue_assets');

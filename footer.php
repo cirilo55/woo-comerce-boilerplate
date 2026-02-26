@@ -7,9 +7,12 @@
                     <h3>Sobre Arqfy</h3>
                     <p>Sua loja online de confiança com os melhores produtos e serviços.</p>
                     <div class="footer-social">
-                        <a href="#" aria-label="Facebook" title="Facebook">f</a>
-                        <a href="#" aria-label="Instagram" title="Instagram">📷</a>
-                        <a href="#" aria-label="LinkedIn" title="LinkedIn">in</a>
+                        <a href="https://facebook.com/arqfy" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                            <img src="<?php echo esc_url(get_template_directory_uri() . '/images/facebook.png'); ?>" alt="Facebook" width="32" height="32">
+                        </a>
+                        <a href="https://instagram.com/arqfy" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                            <img src="<?php echo esc_url(get_template_directory_uri() . '/images/instagram.png'); ?>" alt="Instagram" width="32" height="32">
+                        </a>
                     </div>
                 </div>
 
