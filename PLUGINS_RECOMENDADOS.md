@@ -1,6 +1,6 @@
-# Plugins Recomendados para Arqfy
+# Plugins Recomendados para ArqDeco
 
-Este documento lista os plugins recomendados para otimizar sua loja Arqfy.
+Este documento lista os plugins recomendados para otimizar sua loja ArqDeco.
 
 ---
 

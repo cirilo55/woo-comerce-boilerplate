@@ -14,7 +14,7 @@
 					<div class="slide-bg" style="background-image: url('<?php echo esc_url($template_dir . '/images/slide-1.jpg'); ?>'); background-size: cover; background-position: center;"></div>
 					<div class="slide-overlay"></div>
 					<div class="slide-content">
-						<h2>Bem-vindo à Arqfy</h2>
+						<h2>Bem-vindo à ArqDeco</h2>
 						<p>Produtos de qualidade que transformam seu dia</p>
 						<?php if (class_exists('WooCommerce') && function_exists('wc_get_page_permalink')) : ?>
 							<a class="btn btn-primary" href="<?php echo esc_url(call_user_func('wc_get_page_permalink', 'shop')); ?>">Explorar loja</a>

@@ -1,5 +1,9 @@
 <?php
 
+if (!function_exists('add_action') && file_exists(__DIR__ . '/wordpress-stubs.php')) {
+    require_once __DIR__ . '/wordpress-stubs.php';
+}
+
 function meutema_setup() {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
@@ -41,6 +45,15 @@ function meutema_enqueue_assets() {
                 array(),
                 wp_get_theme()->get('Version'),
                 true
+            );
+        }
+        // Enqueue products page CSS only on shop/product pages
+        if (function_exists('is_shop') && (is_shop() || is_product_category() || is_product_tag() || is_singular('product'))) {
+            wp_enqueue_style(
+                'meutema-shop-style',
+                get_template_directory_uri() . '/css/shop.css',
+                array('meutema-style'),
+                wp_get_theme()->get('Version')
             );
         }
     }

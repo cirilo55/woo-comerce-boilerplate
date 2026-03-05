@@ -96,7 +96,7 @@ function meutema_show_plugins_info() {
     }
 
     echo '<div class="meutema-plugins-info-notice">';
-    echo '<h3>ℹ️ Plugins Recomendados para Arqfy</h3>';
+    echo '<h3>ℹ️ Plugins Recomendados para ArqDeco</h3>';
     
     foreach ($meutema_plugins_info as $category => $data) {
         echo '<div class="plugin-category">';

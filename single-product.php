@@ -2,7 +2,7 @@
 /**
  * Template de Página de Produto Individual
  * 
- * @package Arqfy
+ * @package ArqDeco
  * @subpackage MeuTema
  */
 

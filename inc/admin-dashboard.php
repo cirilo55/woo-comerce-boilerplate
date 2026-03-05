@@ -19,7 +19,7 @@ function meutema_add_dashboard_widget() {
 
     wp_add_dashboard_widget(
         'meutema_plugins_widget',
-        '🎁 Plugins Recomendados para Arqfy',
+        '🎁 Plugins Recomendados para ArqDeco',
         'meutema_plugins_widget_callback'
     );
 }
@@ -98,7 +98,7 @@ function meutema_admin_bar_plugins_link($wp_admin_bar) {
 
     $wp_admin_bar->add_menu(array(
         'id'    => 'meutema-plugins',
-        'title' => '🎁 Plugins Arqfy',
+        'title' => '🎁 Plugins ArqDeco',
         'href'  => admin_url('index.php#meutema_plugins_widget'),
     ));
 }

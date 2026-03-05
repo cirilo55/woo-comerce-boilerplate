@@ -193,3 +193,89 @@ if (!function_exists('get_template_directory_uri')) {
         return '';
     }
 }
+
+if (!function_exists('get_template_directory')) {
+    function get_template_directory() {
+        return '';
+    }
+}
+
+if (!function_exists('register_nav_menus')) {
+    function register_nav_menus($locations = array()) {}
+}
+
+if (!function_exists('__')) {
+    function __($text, $domain = 'default') {
+        return (string) $text;
+    }
+}
+
+if (!function_exists('esc_html__')) {
+    function esc_html__($text, $domain = 'default') {
+        return (string) $text;
+    }
+}
+
+if (!function_exists('_n_noop')) {
+    function _n_noop($singular, $plural, $domain = null) {
+        return array(
+            'singular' => (string) $singular,
+            'plural' => (string) $plural,
+            'domain' => $domain,
+        );
+    }
+}
+
+if (!function_exists('is_admin')) {
+    function is_admin() {
+        return false;
+    }
+}
+
+if (!function_exists('is_shop')) {
+    function is_shop() {
+        return false;
+    }
+}
+
+if (!function_exists('is_product_category')) {
+    function is_product_category($term = '') {
+        return false;
+    }
+}
+
+if (!function_exists('is_product_tag')) {
+    function is_product_tag($term = '') {
+        return false;
+    }
+}
+
+if (!function_exists('get_search_query')) {
+    function get_search_query($escaped = true) {
+        return '';
+    }
+}
+
+if (!function_exists('is_user_logged_in')) {
+    function is_user_logged_in() {
+        return false;
+    }
+}
+
+if (!function_exists('has_nav_menu')) {
+    function has_nav_menu($location) {
+        return false;
+    }
+}
+
+if (!function_exists('wp_nav_menu')) {
+    function wp_nav_menu($args = array()) {
+        return '';
+    }
+}
+
+if (!function_exists('wp_list_pages')) {
+    function wp_list_pages($args = array()) {
+        return '';
+    }
+}

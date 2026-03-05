@@ -5,7 +5,7 @@
  * This template is used for WooCommerce pages
  * For shop/archive, use archive-product.php
  * 
- * @package Arqfy
+ * @package ArqDeco
  */
 
 get_header();

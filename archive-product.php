@@ -2,7 +2,7 @@
 /**
  * Template de Arquivo de Produtos (Loja)
  * 
- * @package Arqfy
+ * @package ArqDeco
  * @subpackage MeuTema
  */
 

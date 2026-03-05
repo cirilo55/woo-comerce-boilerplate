@@ -1,3 +1,8 @@
+<?php
+if (!function_exists('get_search_query') && file_exists(__DIR__ . '/wordpress-stubs.php')) {
+	require_once __DIR__ . '/wordpress-stubs.php';
+}
+?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -32,9 +37,9 @@
 				$logo_url = call_user_func('get_template_directory_uri') . '/logo.svg';
 			}
 			if ($logo_url) : ?>
-				<img src="<?php echo esc_url($logo_url); ?>" alt="Arqfy" class="logo-img">
+				<img src="<?php echo esc_url($logo_url); ?>" alt="ArqDeco" class="logo-img">
 			<?php endif; ?>
-			<span class="logo-text">Arqfy</span>
+			<span class="logo-text">ArqDeco</span>
 		</a>
 
 		<div class="header-search">
@@ -78,9 +83,7 @@
 				?>
 				<a href="<?php echo esc_url($cart_url); ?>" class="icon-link cart-link" aria-label="Carrinho">
 					<img src="<?php echo esc_url(get_template_directory_uri() . '/images/cart.png'); ?>" alt="Carrinho" class="icon-img" width="24" height="24" />
-					<?php if ($cart_count > 0) : ?>
-						<span class="badge"><?php echo esc_html((string) $cart_count); ?></span>
-					<?php endif; ?>
+					<span class="badge" data-count="<?php echo esc_attr((string) $cart_count); ?>"><?php echo esc_html((string) $cart_count); ?></span>
 				</a>
 				<a href="<?php echo esc_url($account_url); ?>" class="icon-link account-link" aria-label="Minha conta">
 					<img src="<?php echo esc_url(get_template_directory_uri() . '/images/user.png'); ?>" alt="Minha conta" class="icon-img" width="24" height="24" />

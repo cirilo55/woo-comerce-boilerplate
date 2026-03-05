@@ -4,13 +4,13 @@
             <div class="footer-grid">
                 <!-- Col 1: Sobre -->
                 <div class="footer-col">
-                    <h3>Sobre Arqfy</h3>
+                    <h3>Sobre ArqDeco</h3>
                     <p>Sua loja online de confiança com os melhores produtos e serviços.</p>
                     <div class="footer-social">
-                        <a href="https://facebook.com/arqfy" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                        <a href="https://facebook.com/ArqDeco" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
                             <img src="<?php echo esc_url(get_template_directory_uri() . '/images/facebook.png'); ?>" alt="Facebook" width="32" height="32">
                         </a>
-                        <a href="https://instagram.com/arqfy" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                        <a href="https://instagram.com/ArqDeco" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
                             <img src="<?php echo esc_url(get_template_directory_uri() . '/images/instagram.png'); ?>" alt="Instagram" width="32" height="32">
                         </a>
                     </div>
@@ -44,7 +44,7 @@
                     <ul class="footer-contact">
                         <li>
                             <strong>Email:</strong><br>
-                            <a href="mailto:contato@arqfy.com">contato@arqfy.com</a>
+                            <a href="mailto:contato@ArqDeco.com">contato@ArqDeco.com</a>
                         </li>
                         <li>
                             <strong>Telefone:</strong><br>
