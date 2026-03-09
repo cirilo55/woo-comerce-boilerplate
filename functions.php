@@ -22,11 +22,41 @@ add_action('after_setup_theme', 'meutema_setup');
 
 function meutema_enqueue_assets() {
     wp_enqueue_style(
-        'meutema-style',
+        'meutema-base-style',
         get_stylesheet_uri(),
         array(),
         wp_get_theme()->get('Version')
     );
+
+    wp_enqueue_style(
+        'meutema-layout-style',
+        get_template_directory_uri() . '/css/01-layout-components.css',
+        array('meutema-base-style'),
+        wp_get_theme()->get('Version')
+    );
+
+    if (function_exists('is_page') && is_page()) {
+        wp_enqueue_style(
+            'meutema-page-style',
+            get_template_directory_uri() . '/css/04-page.css',
+            array('meutema-layout-style'),
+            wp_get_theme()->get('Version')
+        );
+    }
+
+    if (
+        class_exists('WooCommerce') && (
+            (function_exists('is_cart') && is_cart()) ||
+            (function_exists('is_page_template') && is_page_template('page-cart.php'))
+        )
+    ) {
+        wp_enqueue_style(
+            'meutema-cart-style',
+            get_template_directory_uri() . '/css/05-cart.css',
+            array('meutema-layout-style'),
+            wp_get_theme()->get('Version')
+        );
+    }
 
     if (function_exists('wp_enqueue_script')) {
         call_user_func('wp_enqueue_script',
@@ -46,19 +76,108 @@ function meutema_enqueue_assets() {
                 wp_get_theme()->get('Version'),
                 true
             );
-        }
-        // Enqueue products page CSS only on shop/product pages
-        if (function_exists('is_shop') && (is_shop() || is_product_category() || is_product_tag() || is_singular('product'))) {
+
             wp_enqueue_style(
-                'meutema-shop-style',
-                get_template_directory_uri() . '/css/shop.css',
-                array('meutema-style'),
+                'meutema-products-archive-style',
+                get_template_directory_uri() . '/css/02-products-archive.css',
+                array('meutema-layout-style'),
                 wp_get_theme()->get('Version')
             );
+
+            wp_enqueue_style(
+                'meutema-products-archive-responsive-style',
+                get_template_directory_uri() . '/css/03-responsive-products.css',
+                array('meutema-products-archive-style'),
+                wp_get_theme()->get('Version')
+            );
+        }
+
+        if (class_exists('WooCommerce')) {
+            wp_enqueue_script('wc-cart-fragments');
         }
     }
 }
 add_action('wp_enqueue_scripts', 'meutema_enqueue_assets');
+
+function meutema_get_shop_url() {
+    $shop_url = '';
+
+    if (function_exists('wc_get_page_permalink')) {
+        $shop_url = (string) call_user_func('wc_get_page_permalink', 'shop');
+    }
+
+    if ('' === $shop_url && function_exists('home_url')) {
+        $shop_url = (string) call_user_func('home_url', '/shop/');
+    }
+
+    return $shop_url;
+}
+
+function meutema_redirect_product_archive_query_to_shop() {
+    if (!function_exists('is_admin') || is_admin()) {
+        return;
+    }
+
+    if (!isset($_GET['post_type']) || 'product' !== $_GET['post_type']) {
+        return;
+    }
+
+    $shop_url = meutema_get_shop_url();
+
+    if ('' === $shop_url) {
+        return;
+    }
+
+    if (function_exists('wp_safe_redirect')) {
+        call_user_func('wp_safe_redirect', $shop_url, 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'meutema_redirect_product_archive_query_to_shop');
+
+function meutema_redirect_legacy_loja_slug_to_shop() {
+    if (!function_exists('is_admin') || is_admin()) {
+        return;
+    }
+
+    if (empty($_SERVER['REQUEST_URI'])) {
+        return;
+    }
+
+    $request_path = (string) parse_url((string) $_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $normalized_path = rtrim($request_path, '/');
+
+    if ('' === $normalized_path) {
+        $normalized_path = '/';
+    }
+
+    if ('/loja' !== $normalized_path) {
+        return;
+    }
+
+    $shop_url = meutema_get_shop_url();
+
+    if ('' === $shop_url) {
+        return;
+    }
+
+    $shop_path = (string) parse_url($shop_url, PHP_URL_PATH);
+    $normalized_shop_path = rtrim($shop_path, '/');
+
+    if ('' === $normalized_shop_path) {
+        $normalized_shop_path = '/';
+    }
+
+    if ('/loja' === $normalized_shop_path) {
+        return;
+    }
+
+    if (function_exists('wp_safe_redirect')) {
+        call_user_func('wp_safe_redirect', $shop_url, 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'meutema_redirect_legacy_loja_slug_to_shop');
 
 /**
  * Registrar plugins recomendados usando TGM Plugin Activation

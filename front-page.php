@@ -19,7 +19,7 @@
 						<?php if (class_exists('WooCommerce') && function_exists('wc_get_page_permalink')) : ?>
 							<a class="btn btn-primary" href="<?php echo esc_url(call_user_func('wc_get_page_permalink', 'shop')); ?>">Explorar loja</a>
 						<?php else : ?>
-							<a class="btn btn-primary" href="/loja/">Explorar loja</a>
+							<a class="btn btn-primary" href="/shop/">Explorar loja</a>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -33,7 +33,7 @@
 						<?php if (class_exists('WooCommerce') && function_exists('wc_get_page_permalink')) : ?>
 							<a class="btn btn-primary" href="<?php echo esc_url(call_user_func('wc_get_page_permalink', 'shop')); ?>">Ver ofertas</a>
 						<?php else : ?>
-							<a class="btn btn-primary" href="/loja/">Ver ofertas</a>
+							<a class="btn btn-primary" href="/shop/">Ver ofertas</a>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 						<?php if (class_exists('WooCommerce') && function_exists('wc_get_page_permalink')) : ?>
 							<a class="btn btn-primary" href="<?php echo esc_url(call_user_func('wc_get_page_permalink', 'shop')); ?>">Descobrir</a>
 						<?php else : ?>
-							<a class="btn btn-primary" href="/loja/">Descobrir</a>
+							<a class="btn btn-primary" href="/shop/">Descobrir</a>
 						<?php endif; ?>
 					</div>
 				</div>
