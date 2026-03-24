@@ -1,0 +1,9 @@
+.cart-page-header section-subtitle{
+    display: none !important;
+}
+.wc-blocks-components-select{
+    margin-top: 0.75rem !important;
+}
+.woocommerce-notices-wrapper{
+    display: none !important;
+}

@@ -56,48 +56,87 @@ function meutema_enqueue_assets() {
             array('meutema-layout-style'),
             wp_get_theme()->get('Version')
         );
-    }
 
-    if (function_exists('wp_enqueue_script')) {
-        call_user_func('wp_enqueue_script',
-            'meutema-carousel',
-            get_template_directory_uri() . '/js/carousel.js',
-            array(),
-            wp_get_theme()->get('Version'),
-            true
-        );
-        
-        // Enqueue products page JS only on shop/archive pages
-        if (function_exists('is_shop') && (is_shop() || is_product_category() || is_product_tag())) {
+        if (function_exists('wp_enqueue_script')) {
             call_user_func('wp_enqueue_script',
-                'meutema-products-page',
-                get_template_directory_uri() . '/js/products-page.js',
+                'meutema-cart-auto-update',
+                get_template_directory_uri() . '/js/cart-auto-update.js',
                 array(),
                 wp_get_theme()->get('Version'),
                 true
             );
 
-            wp_enqueue_style(
-                'meutema-products-archive-style',
-                get_template_directory_uri() . '/css/02-products-archive.css',
-                array('meutema-layout-style'),
-                wp_get_theme()->get('Version')
-            );
-
-            wp_enqueue_style(
-                'meutema-products-archive-responsive-style',
-                get_template_directory_uri() . '/css/03-responsive-products.css',
-                array('meutema-products-archive-style'),
-                wp_get_theme()->get('Version')
-            );
+            if (function_exists('wp_localize_script') && function_exists('admin_url')) {
+                $ajax_url = call_user_func('admin_url', 'admin-ajax.php');
+                call_user_func('wp_localize_script', 'meutema-cart-auto-update', 'meutema_ajax', array(
+                    'ajax_url' => $ajax_url
+                ));
+            }
         }
+    }
 
-        if (class_exists('WooCommerce')) {
-            wp_enqueue_script('wc-cart-fragments');
-        }
+    if (function_exists('is_shop') && (is_shop() || is_product_category() || is_product_tag())) {
+        wp_enqueue_style(
+            'meutema-products-archive-style',
+            get_template_directory_uri() . '/css/02-products-archive.css',
+            array('meutema-layout-style'),
+            wp_get_theme()->get('Version')
+        );
+
+        wp_enqueue_style(
+            'meutema-products-archive-responsive-style',
+            get_template_directory_uri() . '/css/03-responsive-products.css',
+            array('meutema-products-archive-style'),
+            wp_get_theme()->get('Version')
+        );
+    }
+
+    if (class_exists('WooCommerce')) {
+        wp_enqueue_script('wc-cart-fragments');
     }
 }
 add_action('wp_enqueue_scripts', 'meutema_enqueue_assets');
+
+// AJAX handler para atualizar quantidade do carrinho
+add_action('wp_ajax_meutema_update_cart_item', 'meutema_update_cart_item_ajax');
+add_action('wp_ajax_nopriv_meutema_update_cart_item', 'meutema_update_cart_item_ajax');
+
+function meutema_update_cart_item_ajax() {
+    if (!class_exists('WooCommerce')) {
+        echo json_encode(array('success' => false, 'message' => 'WooCommerce não está ativo'));
+        wp_die();
+    }
+
+    $cart_item_key = isset($_POST['cart_item_key']) ? $_POST['cart_item_key'] : '';
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 0;
+
+    if (empty($cart_item_key)) {
+        echo json_encode(array('success' => false, 'message' => 'Dados inválidos'));
+        wp_die();
+    }
+
+    // Atualizar quantidade (permite 0)
+    WC()->cart->set_quantity($cart_item_key, $quantity);
+
+    ob_start();
+    include get_template_directory() . '/woocommerce/cart/cart.php';
+    $cart_html = ob_get_clean();
+
+    preg_match('/<table[^>]*class="[^"]*shop_table[^"]*"[^>]*>.*?<\/table>/s', $cart_html, $matches);
+    $table_html = $matches[0] ?? '';
+
+    preg_match('/<div[^>]*class="[^"]*cart_totals[^"]*"[^>]*>.*?<\/div>/s', $cart_html, $totals_matches);
+    $totals_html = $totals_matches[0] ?? '';
+
+    echo json_encode(array(
+        'success' => true,
+        'data' => array(
+            'cart_table' => $table_html,
+            'cart_totals' => $totals_html
+        )
+    ));
+    wp_die();
+}
 
 function meutema_get_shop_url() {
     $shop_url = '';
